@@ -71,7 +71,7 @@ RUN wget http://mirrors.jenkins-ci.org/war/$JENKINS_VERSION/jenkins.war -O /opt/
 RUN chmod 644 /opt/jenkins/$JENKINS_VERSION.war
 
 #We always launch jenkins.
-ENTRYPOINT ["java", "-jar", "/opt/jenkins/$JENKINS_VERSION.war"]
+ENTRYPOINT ["java", "-jar", "/opt/jenkins/1.589.war"]
 EXPOSE 8080
 
 CMD [""]
