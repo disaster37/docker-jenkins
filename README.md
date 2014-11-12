@@ -22,7 +22,7 @@ Utilities:
 
 # Usage
 
-`docker run --privileged --rm --name jenkins -p 80:8080  -v <persistance path>:/jenkins redbuffstudio/docker-jenkins:1.589-2`
+`docker run --privileged --rm --name jenkins -p 80:8080  -v <persistance path>:/jenkins redbuffstudio/docker-jenkins:1.589-3`
 
 Note: You can include an .ssh folder for public/private ssh keys to
 make the available.
