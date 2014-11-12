@@ -70,6 +70,13 @@ RUN mkdir -p /opt/jenkins
 RUN wget http://mirrors.jenkins-ci.org/war/$JENKINS_VERSION/jenkins.war -O /opt/jenkins/$JENKINS_VERSION.war
 RUN chmod 644 /opt/jenkins/$JENKINS_VERSION.war
 
+#Clean up packages
+RUN rm -rf /tmp/java8.tar.gz
+RUN apt-get clean
+RUN rm -rf /var/lib/apt/lists/*
+RUN rm -rf /var/cache/apt/archives/*
+
+
 #We always launch jenkins.
 ENTRYPOINT ["java", "-jar", "/opt/jenkins/1.589.war"]
 EXPOSE 8080
