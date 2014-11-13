@@ -14,6 +14,7 @@ Languages & Platforms:
 
 Utilities:
 
+* [Fleet v0.8.3](https://github.com/coreos/fleet)
 * [Composer](http://getcomposer.org/)
 * [Bundler](http://bundler.io)
 * [Bower](http://bower.io)
@@ -22,10 +23,19 @@ Utilities:
 
 # Usage
 
-`docker run --privileged --rm --name jenkins -p 80:8080  -v <persistance path>:/jenkins redbuffstudio/docker-jenkins:1.589-3`
+Suggested workflow:
 
-Note: You can include an .ssh folder for public/private ssh keys to
-make the available.
+* Install application dependencies & run tests.
+* Run wrapdocker in a shell step.
+* Package application into a docker image with the
+  [Docker Jenkins Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Docker+build+step+plugin))
+* Push image to private registry.
+* Deploy unit file to cluster with fleetOs.
+* Service discovery with Haproxy/Vulcan
+
+Example run:
+
+`docker run --privileged --rm --name jenkins -p 80:8080  -v /var/run/docker.sock:/var/run/docker.sock -v <persistance path>:/jenkins redbuffstudio/docker-jenkins:1.589-4`
 
 # License
 -------
