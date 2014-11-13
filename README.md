@@ -27,11 +27,14 @@ Suggested workflow:
 
 * Install application dependencies & run tests.
 * Run wrapdocker in a shell step.
-* Package application into a docker image with the
-  [Docker Jenkins Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Docker+build+step+plugin))
+* Package application into a docker image with the.
+  [Docker Jenkins Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Docker+build+step+plugin)).
 * Push image to private registry.
+* Clean up previous tags if necessary.
 * Deploy unit file to cluster with fleetOs.
-* Service discovery with Haproxy/Vulcan
+* Register with ETCD.
+* Service discovery with confd to configure Vulcan/HAproxy.
+* Unregister previous versions with ETCD.
 
 Example run:
 
