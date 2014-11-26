@@ -19,6 +19,7 @@ Utilities:
 * [Bundler](http://bundler.io)
 * [Bower](http://bower.io)
 * [Grunt](http://gruntjs.com)
+* [Gulp](http://gulpjs.com)
 * [Wrapdocker](https://github.com/jpetazzo/dind/blob/master/wrapdocker)
 
 # Usage

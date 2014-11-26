@@ -35,6 +35,7 @@ RUN apt-get install -y -q nodejs=0.10.33-2nodesource1~trusty1
 #Install javascript toolkit.
 RUN npm install -g bower
 RUN npm install -g grunt-cli
+RUN npm install -g gulp
 
 #Install PHP 5.6.2
 RUN echo "deb http://ppa.launchpad.net/ondrej/php5-5.6/ubuntu trusty main" >> /etc/apt/sources.list
@@ -63,7 +64,7 @@ RUN update-alternatives --install /usr/bin/java java $JAVA_HOME/bin/java 2
 RUN update-alternatives --install /usr/bin/javac javac $JAVA_HOME/bin/javac 2
 
 #Fetch Jenkins LTS
-ENV JENKINS_VERSION 1.589
+ENV JENKINS_VERSION 1.590
 ENV JENKINS_HOME /jenkins
 
 RUN mkdir -p /opt/jenkins
