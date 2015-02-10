@@ -2,7 +2,6 @@ FROM ubuntu:14.04
 MAINTAINER Boyan Bonev <b.bonev@redbuffstudio.com>
 
 #Setup container environment parameters
-ENV DEBIAN_FRONTEND noninteractive
 ENV INITRD No
 
 #Configure locale.
@@ -83,7 +82,7 @@ RUN rm -rf /var/lib/apt/lists/*
 RUN rm -rf /var/cache/apt/archives/*
 
 #We always launch jenkins.
-ENTRYPOINT ["java", "-jar", "/opt/jenkins/1.589.war"]
+#ENTRYPOINT ["java", "-jar", "/opt/jenkins/1.589.war"]
 EXPOSE 8080
 
-CMD [""]
+CMD ["java", "-jar", "/opt/jenkins/${JENKINS_VERSION}.war"]

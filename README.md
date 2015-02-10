@@ -39,7 +39,7 @@ Suggested workflow:
 
 Example run:
 
-`docker run --privileged --rm --name jenkins -p 80:8080  -v /var/run/docker.sock:/var/run/docker.sock -v <persistance path>:/jenkins redbuffstudio/docker-jenkins:1.589-4`
+`docker run --rm --name jenkins -p 80:8080 -v <persistance path>:/jenkins redbuffstudio/docker-jenkins:1.590-1`
 
 # License
 -------
