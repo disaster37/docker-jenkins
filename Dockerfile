@@ -4,6 +4,13 @@ MAINTAINER Boyan Bonev <b.bonev@redbuffstudio.com>
 #Setup container environment parameters
 ENV INITRD No
 
+#Product version
+ENV ORACLE_JDK_VERSION 8u31
+ENV JENKINS_VERSION 1.598
+ENV RUBY_VERSION 2.1.5
+ENV PHP_VERSION 5-5.6
+ENV FLEET_VERSION 0.8.3
+
 #Configure locale.
 RUN locale-gen en_US en_US.UTF-8
 ENV LANG en_US.UTF-8
@@ -25,10 +32,10 @@ RUN apt-get install -y -q libgdbm-dev libncurses5-dev automake libtool bison lib
 RUN curl -sSL https://rvm.io/mpapis.asc | gpg --import -
 RUN curl -L https://get.rvm.io | bash -s stable
 RUN /bin/bash -l -c "rvm requirements"
-RUN /bin/bash -l -c "rvm install 2.1.3"
+RUN /bin/bash -l -c "rvm install ${RUBY_VERSION}"
 RUN /bin/bash -l -c "gem install bundler --no-ri --no-rdoc"
 
-ENV PATH /usr/local/rvm/rubies/ruby-2.1.3/bin/:$PATH
+ENV PATH /usr/local/rvm/rubies/ruby-${RUBY_VERSION}/bin/:$PATH
 
 # Install Javasript build toolchain.
 RUN curl -sL https://deb.nodesource.com/setup | sudo bash -
@@ -40,7 +47,7 @@ RUN npm install -g grunt-cli
 RUN npm install -g gulp
 
 #Install PHP 5.6.2
-RUN echo "deb http://ppa.launchpad.net/ondrej/php5-5.6/ubuntu trusty main" >> /etc/apt/sources.list
+RUN echo "deb http://ppa.launchpad.net/ondrej/php${PHP_VERSION}/ubuntu trusty main" >> /etc/apt/sources.list
 RUN wget -O- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x4F4EA0AAE5267A6C" | sudo apt-key add -
 #RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 14AA40EC0831756756D7F66C4F4EA0AAE5267A6C
 RUN apt-get -y update
@@ -56,18 +63,18 @@ RUN chmod +x /usr/local/bin/wrapdocker
 
 
 #Install Java
-RUN wget --no-check-certificate -c --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u25-b17/jdk-8u25-linux-x64.tar.gz -O /tmp/java8.tar.gz
+RUN wget --no-check-certificate -c --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/${ORACLE_JDK_VERSION}-b13/jdk-${ORACLE_JDK_VERSION}-linux-x64.tar.gz -O /tmp/java.tar.gz
 RUN mkdir -p /opt/oracle
-RUN tar zxf /tmp/java8.tar.gz -C /opt/oracle
+RUN tar zxf /tmp/java.tar.gz -C /opt/oracle
+RUN mv /opt/oracle/jdk* /opt/oracle/jdk
 
-ENV JAVA_HOME /opt/oracle/jdk1.8.0_25
+ENV JAVA_HOME /opt/oracle/jdk
 ENV PATH $PATH:$JAVA_HOME/bin
 
 RUN update-alternatives --install /usr/bin/java java $JAVA_HOME/bin/java 2
 RUN update-alternatives --install /usr/bin/javac javac $JAVA_HOME/bin/javac 2
 
 #Fetch Jenkins LTS
-ENV JENKINS_VERSION 1.598
 ENV JENKINS_HOME /jenkins
 
 RUN mkdir -p /opt/jenkins
@@ -75,13 +82,13 @@ RUN wget http://mirrors.jenkins-ci.org/war/$JENKINS_VERSION/jenkins.war -O /opt/
 RUN chmod 644 /opt/jenkins/jenkins.war
 
 #Install fleet
-RUN wget https://github.com/coreos/fleet/releases/download/v0.8.3/fleet-v0.8.3-linux-amd64.tar.gz -O /tmp/fleet.tar.gz
+RUN wget https://github.com/coreos/fleet/releases/download/v${FLEET_VERSION}/fleet-v${FLEET_VERSION}-linux-amd64.tar.gz -O /tmp/fleet.tar.gz
 RUN tar zxf /tmp/fleet.tar.gz -C /tmp
-RUN mv /tmp/fleet-v0.8.3-linux-amd64/fleetctl /usr/local/bin/
+RUN mv /tmp/fleet-v${FLEET_VERSION}-linux-amd64/fleetctl /usr/local/bin/
 
 
 #Clean up packages
-RUN rm -rf /tmp/java8.tar.gz
+RUN rm -rf /tmp/java.tar.gz
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/*
 RUN rm -rf /var/cache/apt/archives/*
